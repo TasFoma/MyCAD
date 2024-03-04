@@ -13,6 +13,7 @@ namespace MyCAD
         private int DrawIndex = -1;
         private bool active_drawing = false;
 
+
         private void drawing_MouseMove(object sender, MouseEventArgs e)
         {
             currentPosition = PointToCartesian(e.Location);
