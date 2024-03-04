@@ -1,10 +1,38 @@
+using System.Drawing;
+
 namespace MyCAD
 {
-    public partial class Form1 : Form
+    public partial class GraphicsForm : Form
     {
-        public Form1()
+        public GraphicsForm()
         {
             InitializeComponent();
         }
+        private PointF currentPosition;
+        private void drawing_MouseMove(object sender, MouseEventArgs e)
+        {
+            currentPosition = PointToCartesian(e.Location);
+            label1.Text = string.Format("{0}, {1}", e.Location.X, e.Location.Y);
+            label2.Text = string.Format("{0,0:F3}, {1,0:F3}", currentPosition.X, currentPosition.Y);
+        }
+        // Get screen dpi
+        private float DPI
+        {
+            get
+            {
+                using (var g = CreateGraphics())
+                    return g.DpiX;
+            }
+        }
+        private PointF PointToCartesian(Point point)
+        {
+            return new PointF(Pixel_to_Mn(point.X), Pixel_to_Mn(drawing.Height - point.Y));
+        }
+
+        private float Pixel_to_Mn(float pixel)
+        {
+            return pixel * 25.4f / DPI;
+        }
+
     }
 }
